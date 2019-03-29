@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="@color/screen_background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <TextView
+            android:id="@+id/tv_item_session_no"
+            android:layout_width="55dp"
+            android:layout_height="match_parent"
+            android:textColor="@android:color/white"
+            android:text="1"
+            android:textSize="@dimen/text_regular_2x"
+            android:gravity="center"/>
+        <TextView
+            android:id="@+id/tv_item_session_name"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textColor="@android:color/white"
+            android:text="1"
+            android:layout_toEndOf="@id/tv_item_session_no"
+            android:textSize="@dimen/text_regular_2x"
+            android:gravity="center"/>
+        <TextView
+            android:id="@+id/tv_item_session_duration"
+            android:layout_width="55dp"
+            android:layout_height="match_parent"
+            android:textColor="@android:color/white"
+            android:layout_alignParentEnd="true"
+            android:text="1"
+            android:textSize="@dimen/text_regular_2x"
+            android:gravity="center"/>
+    </RelativeLayout>
+</android.support.constraint.ConstraintLayout>
