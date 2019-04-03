@@ -45,6 +45,16 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_fragment_series_current_program" />
 
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_fragment_series_categories"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/margin_medium_2"
+                android:paddingStart="@dimen/margin_medium"
+                android:paddingEnd="0dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rv_fragment_series_current_program"/>
 
             <TextView
                 android:id="@+id/tv_fragment_series_topic"
@@ -59,7 +69,7 @@
                 android:textColor="@android:color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/rv_fragment_series_current_program"/>
+                app:layout_constraintTop_toBottomOf="@id/rv_fragment_series_categories"/>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_fragment_series_topic"

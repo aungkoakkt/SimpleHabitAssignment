@@ -1,11 +1,10 @@
 package com.me.simplehabit.data.vos;
 
-import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-class ProgramVO {
+public class ProgramVO {
 
     @SerializedName("program-id")
     private String programId;

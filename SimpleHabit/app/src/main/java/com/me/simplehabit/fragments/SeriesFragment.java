@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,15 +15,21 @@ import android.widget.Toast;
 
 import com.me.simplehabit.R;
 import com.me.simplehabit.activities.DetailActivity;
+import com.me.simplehabit.adapters.CategoryProgramAdapter;
 import com.me.simplehabit.adapters.CurrentProgramAdapter;
 import com.me.simplehabit.adapters.TopicsAdapter;
+import com.me.simplehabit.data.models.CategoryProgramModel;
+import com.me.simplehabit.data.models.CategoryProgramModelImpl;
 import com.me.simplehabit.data.models.CurrentProgramModel;
 import com.me.simplehabit.data.models.CurrentProgramModelImpl;
 import com.me.simplehabit.data.models.TopicModel;
 import com.me.simplehabit.data.models.TopicModelImpl;
+import com.me.simplehabit.data.vos.CategoriesProgramVO;
 import com.me.simplehabit.data.vos.CurrentProgramVO;
+import com.me.simplehabit.data.vos.ProgramVO;
 import com.me.simplehabit.data.vos.TopicVO;
 import com.me.simplehabit.delegates.CurrentProgramDelegate;
+import com.me.simplehabit.delegates.ProgramDelegate;
 import com.me.simplehabit.delegates.TopicDelegate;
 
 import java.util.ArrayList;
@@ -36,18 +41,21 @@ import butterknife.ButterKnife;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SeriesFragment extends Fragment implements CurrentProgramDelegate, TopicDelegate {
+public class SeriesFragment extends Fragment implements CurrentProgramDelegate, TopicDelegate, ProgramDelegate {
 
     @BindView(R.id.rv_fragment_series_current_program) RecyclerView rvCurrentProgram;
     @BindView(R.id.rv_fragment_series_topic) RecyclerView rvTopic;
+    @BindView(R.id.rv_fragment_series_categories) RecyclerView rvCategories;
 
     private static SeriesFragment objectInstance = null;
 
     private CurrentProgramAdapter currentProgramAdapter;
     private TopicsAdapter topicsAdapter;
+    private CategoryProgramAdapter categoryProgramAdapter;
 
     private CurrentProgramModel currentProgramModel;
     private TopicModel topicModel;
+    private CategoryProgramModel categoryProgramModel;
 
     public static SeriesFragment getInstance() {
         return (objectInstance == null) ? objectInstance = new SeriesFragment() : objectInstance;
@@ -66,26 +74,39 @@ public class SeriesFragment extends Fragment implements CurrentProgramDelegate, 
 
         rvCurrentProgram.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         rvTopic.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        rvCategories.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
 
         currentProgramAdapter = new CurrentProgramAdapter(this);
         rvCurrentProgram.setAdapter(currentProgramAdapter);
 
-        topicsAdapter=new TopicsAdapter(this);
+        topicsAdapter = new TopicsAdapter(this);
         rvTopic.setAdapter(topicsAdapter);
+
+        categoryProgramAdapter = new CategoryProgramAdapter(this);
+        rvCategories.setAdapter(categoryProgramAdapter);
 
         currentProgramModel = CurrentProgramModelImpl.getInstance();
         topicModel = TopicModelImpl.getInstance();
+        categoryProgramModel = CategoryProgramModelImpl.getInstance();
 
         getCurrentProgram(false);
         getTopic(false);
+        getCategoriesAndPrograms(false);
 
     }
 
     @Override
-    public void onTapCurrentProgamItem(CurrentProgramVO currentProgramVO) {
-        Intent intent=DetailActivity.newIntent(getActivity());
-        intent.putExtra("title",currentProgramVO.getTitle());
-        intent.putExtra("description",currentProgramVO.getDescription());
+    public void onTapCurrentProgramItem(CurrentProgramVO currentProgramVO) {
+        Intent intent = DetailActivity.newIntent(getActivity());
+        intent.putExtra("program","current");
+        startActivity(intent);
+    }
+
+
+    @Override
+    public void onTapProgramItem(ProgramVO programVO) {
+        Intent intent = DetailActivity.newIntent(getActivity());
+        intent.putExtra("program","default");
         startActivity(intent);
     }
 
@@ -113,7 +134,7 @@ public class SeriesFragment extends Fragment implements CurrentProgramDelegate, 
         }, isForce);
     }
 
-    private void getTopic(boolean isForce){
+    private void getTopic(boolean isForce) {
         topicModel.getTopics(isForce, new TopicModel.TopicModelDelegate() {
 
             @Override
@@ -128,5 +149,20 @@ public class SeriesFragment extends Fragment implements CurrentProgramDelegate, 
         });
     }
 
+    private void getCategoriesAndPrograms(boolean isForce){
+
+        categoryProgramModel.getCategoriesAndProgram(new CategoryProgramModel.CategoryProgramModelDelegate() {
+            @Override
+            public void onCurrentProgramFetchFromNetwork(List<CategoriesProgramVO> categoriesProgramVOList) {
+                categoryProgramAdapter.setNewData(categoriesProgramVOList);
+            }
+
+            @Override
+            public void onErrorOnProgramFetch(String message) {
+                Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+            }
+
+        },isForce);
+    }
 
 }

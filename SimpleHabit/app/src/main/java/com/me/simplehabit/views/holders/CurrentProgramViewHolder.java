@@ -22,11 +22,11 @@ public class CurrentProgramViewHolder extends BaseViewHolder<CurrentProgramVO> {
 
     private CurrentProgramDelegate currentProgramDelegate;
 
-    public CurrentProgramViewHolder(@NonNull View itemView,CurrentProgramDelegate currentProgramDelegate) {
+    public CurrentProgramViewHolder(@NonNull View itemView, CurrentProgramDelegate currentProgramDelegate) {
         super(itemView);
         ButterKnife.bind(this,itemView);
 
-        this.currentProgramDelegate=currentProgramDelegate;
+        this.currentProgramDelegate = currentProgramDelegate;
     }
 
     @Override
@@ -38,7 +38,7 @@ public class CurrentProgramViewHolder extends BaseViewHolder<CurrentProgramVO> {
         rlCurrentProgram.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                currentProgramDelegate.onTapCurrentProgamItem(data);
+                currentProgramDelegate.onTapCurrentProgramItem(data);
             }
         });
     }

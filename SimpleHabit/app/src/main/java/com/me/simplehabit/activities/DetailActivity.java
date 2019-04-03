@@ -14,9 +14,14 @@ import android.widget.Toast;
 
 import com.me.simplehabit.R;
 import com.me.simplehabit.adapters.SessionAdapter;
+import com.me.simplehabit.data.models.CategoryProgramModel;
+import com.me.simplehabit.data.models.CategoryProgramModelImpl;
 import com.me.simplehabit.data.models.CurrentProgramModel;
 import com.me.simplehabit.data.models.CurrentProgramModelImpl;
+import com.me.simplehabit.data.vos.CategoriesProgramVO;
 import com.me.simplehabit.data.vos.CurrentProgramVO;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,7 +33,10 @@ public class DetailActivity extends BaseActivity {
     @BindView(R.id.tv_activity_detail_description) TextView tvDescription;
     @BindView(R.id.rv_activity_detail_session) RecyclerView rvSession;
 
+    public static final String PROGRAM="program";
+
     private CurrentProgramModel currentProgramModel;
+    private CategoryProgramModel categoryProgramModel;
     private SessionAdapter sessionAdapter;
 
     public static Intent newIntent(Context context){
@@ -43,25 +51,49 @@ public class DetailActivity extends BaseActivity {
         setSupportActionBar(toolbar);
 
         rvSession.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
-
-        currentProgramModel= CurrentProgramModelImpl.getInstance();
         sessionAdapter=new SessionAdapter();
         rvSession.setAdapter(sessionAdapter);
 
-        currentProgramModel.getCurrentProgram(new CurrentProgramModel.CurrentProgramDelegate() {
-            @Override
-            public void onCurrentProgramFetchFromNetwork(CurrentProgramVO currentProgramVO) {
-                tvDescription.setText(currentProgramVO.getDescription());
-                collapsingToolbarLayout.setTitle(currentProgramVO.getTitle());
+        Intent intent=getIntent();
+        String program=intent.getStringExtra(PROGRAM);
 
-                sessionAdapter.setNewData(currentProgramVO.getSessions());
-            }
+        if (program.equals("current")){
 
-            @Override
-            public void onErrorOnProgramFetch(String message) {
-                Toast.makeText(DetailActivity.this, message, Toast.LENGTH_SHORT).show();
-            }
-        },false);
+            currentProgramModel= CurrentProgramModelImpl.getInstance();
+
+            currentProgramModel.getCurrentProgram(new CurrentProgramModel.CurrentProgramDelegate() {
+                @Override
+                public void onCurrentProgramFetchFromNetwork(CurrentProgramVO currentProgramVO) {
+                    tvDescription.setText(currentProgramVO.getDescription());
+                    collapsingToolbarLayout.setTitle(currentProgramVO.getTitle());
+
+                    sessionAdapter.setNewData(currentProgramVO.getSessions());
+                }
+
+                @Override
+                public void onErrorOnProgramFetch(String message) {
+                    Toast.makeText(DetailActivity.this, message, Toast.LENGTH_SHORT).show();
+                }
+            },false);
+
+        }else {
+            categoryProgramModel= CategoryProgramModelImpl.getInstance();
+
+            categoryProgramModel.getCategoriesAndProgram(new CategoryProgramModel.CategoryProgramModelDelegate() {
+                @Override
+                public void onCurrentProgramFetchFromNetwork(List<CategoriesProgramVO> categoryList) {
+                    tvDescription.setText(categoryList.get(0).getPrograms().get(0).getDescription());
+                    collapsingToolbarLayout.setTitle(categoryList.get(0).getPrograms().get(0).getTitle());
+
+                    sessionAdapter.setNewData(categoryList.get(0).getPrograms().get(0).getSessions());
+                }
+
+                @Override
+                public void onErrorOnProgramFetch(String message) {
+                    Toast.makeText(DetailActivity.this, message, Toast.LENGTH_SHORT).show();
+                }
+            },false);
+        }
 
     }
 }

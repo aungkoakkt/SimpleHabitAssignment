@@ -1,7 +1,9 @@
 package com.me.simplehabit.network;
 
+import com.me.simplehabit.delegates.CategoryProgramDelegate;
 import com.me.simplehabit.delegates.CurrentProgramResponseDelegate;
 import com.me.simplehabit.delegates.TopicResponseDelegate;
+import com.me.simplehabit.network.responses.GetCategoriesAndProgramsResponse;
 import com.me.simplehabit.network.responses.GetCurrentProgramResponse;
 import com.me.simplehabit.network.responses.GetTopicResponse;
 import com.me.simplehabit.utils.CommonInstances;
@@ -54,7 +56,7 @@ public class NetworkDataAgent implements SimpleHabitDataAgent {
 
                 if (currentProgramResponse != null) {
 
-                    if (currentProgramResponse.isResonseSuccess()) {
+                    if (currentProgramResponse.isResponseSuccess()) {
                         delegate.onSuccess(currentProgramResponse.getCurrentProgram());
                     } else {
                         delegate.onFail(currentProgramResponse.getMessage());
@@ -81,7 +83,7 @@ public class NetworkDataAgent implements SimpleHabitDataAgent {
 
                 if (topicResponse != null) {
 
-                    if (topicResponse.isResonseSuccess()) {
+                    if (topicResponse.isResponseSuccess()) {
                         delegate.onSuccess(topicResponse.getTopics());
                     } else {
                         delegate.onFail(topicResponse.getMessage());
@@ -94,6 +96,32 @@ public class NetworkDataAgent implements SimpleHabitDataAgent {
             @Override
             public void onFailure(Call<GetTopicResponse> call, Throwable t) {
                 delegate.onFail(t.getMessage());
+            }
+        });
+    }
+
+    @Override
+    public void getCategoriesAndPrograms(String token, int page, final CategoryProgramDelegate delegate) {
+
+        theApi.loadCategoriesAdnPrograms(token,page).enqueue(new Callback<GetCategoriesAndProgramsResponse>() {
+            @Override
+            public void onResponse(Call<GetCategoriesAndProgramsResponse> call, Response<GetCategoriesAndProgramsResponse> response) {
+                GetCategoriesAndProgramsResponse categoriesAndProgramsResponse=response.body();
+
+                if (categoriesAndProgramsResponse!=null){
+                    if (categoriesAndProgramsResponse.isResponseSuccess()){
+                        delegate.onSuccess(categoriesAndProgramsResponse.getCategoriesPrograms());
+                    }else {
+                        delegate.onFail(categoriesAndProgramsResponse.getMessage());
+                    }
+                }else {
+                    delegate.onFail("Category and Program is null");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetCategoriesAndProgramsResponse> call, Throwable t) {
+
             }
         });
     }

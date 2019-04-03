@@ -4,5 +4,5 @@ import com.me.simplehabit.data.vos.CurrentProgramVO;
 
 public interface CurrentProgramDelegate {
 
-    void onTapCurrentProgamItem(CurrentProgramVO currentProgramVO);
+    void onTapCurrentProgramItem(CurrentProgramVO currentProgramVO);
 }
