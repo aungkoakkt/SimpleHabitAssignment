@@ -4,5 +4,5 @@ import com.me.simplehabit.data.vos.ProgramVO;
 
 public interface ProgramDelegate {
 
-    void onTapProgramItem(ProgramVO programVO);
+    void onTapProgramItem(ProgramVO programVO, String categoryId, int position);
 }

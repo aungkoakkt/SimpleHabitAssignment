@@ -20,8 +20,9 @@ public class CategoryProgramAdapter extends BaseRecyclerAdapter<CategoryViewHold
 
     @NonNull
     @Override
-    public CategoryViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public CategoryViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup,int position) {
         View itemView= LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.view_item_category,viewGroup,false);
         return new CategoryViewHolder(itemView, programDelegate);
     }
+
 }

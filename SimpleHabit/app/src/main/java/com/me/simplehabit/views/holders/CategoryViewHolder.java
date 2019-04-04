@@ -22,17 +22,19 @@ public class CategoryViewHolder extends BaseViewHolder<CategoriesProgramVO> {
 
     Context context;
     private ProgramAdapter mProgramAdapter;
+    private ProgramDelegate mDelegate;
 
     public CategoryViewHolder(@NonNull View itemView, ProgramDelegate delegate) {
         super(itemView);
         ButterKnife.bind(this,itemView);
         context=itemView.getContext();
-
-        mProgramAdapter=new ProgramAdapter(delegate);
+        mDelegate=delegate;
     }
 
     @Override
     public void bindData(CategoriesProgramVO data) {
+
+        mProgramAdapter=new ProgramAdapter(mDelegate,data.getCategoryId());
 
         tvCategory.setText(data.getTitle());
         rvCategory.setLayoutManager(new LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false));

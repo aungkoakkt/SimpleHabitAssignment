@@ -1,6 +1,5 @@
 package com.me.simplehabit.fragments;
 
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -98,15 +97,17 @@ public class SeriesFragment extends Fragment implements CurrentProgramDelegate, 
     @Override
     public void onTapCurrentProgramItem(CurrentProgramVO currentProgramVO) {
         Intent intent = DetailActivity.newIntent(getActivity());
-        intent.putExtra("program","current");
+        intent.putExtra("program", "current");
         startActivity(intent);
     }
 
 
     @Override
-    public void onTapProgramItem(ProgramVO programVO) {
+    public void onTapProgramItem(ProgramVO programVO, String categoryId, int position) {
         Intent intent = DetailActivity.newIntent(getActivity());
-        intent.putExtra("program","default");
+        intent.putExtra(DetailActivity.PROGRAM, "default");
+        intent.putExtra(DetailActivity.POSITION, position);
+        intent.putExtra(DetailActivity.CATEGORY_ID, categoryId);
         startActivity(intent);
     }
 
@@ -116,7 +117,7 @@ public class SeriesFragment extends Fragment implements CurrentProgramDelegate, 
     }
 
     private void getCurrentProgram(boolean isForce) {
-        currentProgramModel.getCurrentProgram(new CurrentProgramModel.CurrentProgramDelegate() {
+        CurrentProgramVO currentProgram = currentProgramModel.getCurrentProgram(new CurrentProgramModel.CurrentProgramDelegate() {
 
             @Override
             public void onCurrentProgramFetchFromNetwork(CurrentProgramVO currentProgramVO) {
@@ -132,10 +133,16 @@ public class SeriesFragment extends Fragment implements CurrentProgramDelegate, 
             }
 
         }, isForce);
+
+        if (currentProgram != null) {
+            List<CurrentProgramVO> programList = new ArrayList<>();
+            programList.add(currentProgram);
+            currentProgramAdapter.setNewData(programList);
+        }
     }
 
     private void getTopic(boolean isForce) {
-        topicModel.getTopics(isForce, new TopicModel.TopicModelDelegate() {
+        List<TopicVO> topicList = topicModel.getTopics(isForce, new TopicModel.TopicModelDelegate() {
 
             @Override
             public void onTopicFetchFromNetwork(List<TopicVO> topicList) {
@@ -147,11 +154,15 @@ public class SeriesFragment extends Fragment implements CurrentProgramDelegate, 
                 Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
             }
         });
+
+        if (topicList != null) {
+            topicsAdapter.setNewData(topicList);
+        }
     }
 
-    private void getCategoriesAndPrograms(boolean isForce){
+    private void getCategoriesAndPrograms(boolean isForce) {
 
-        categoryProgramModel.getCategoriesAndProgram(new CategoryProgramModel.CategoryProgramModelDelegate() {
+        List<CategoriesProgramVO> programList = categoryProgramModel.getCategoriesAndProgram(new CategoryProgramModel.CategoryProgramModelDelegate() {
             @Override
             public void onCurrentProgramFetchFromNetwork(List<CategoriesProgramVO> categoriesProgramVOList) {
                 categoryProgramAdapter.setNewData(categoriesProgramVOList);
@@ -162,7 +173,11 @@ public class SeriesFragment extends Fragment implements CurrentProgramDelegate, 
                 Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
             }
 
-        },isForce);
+        }, isForce);
+
+        if (programList != null) {
+            categoryProgramAdapter.setNewData(programList);
+        }
     }
 
 }

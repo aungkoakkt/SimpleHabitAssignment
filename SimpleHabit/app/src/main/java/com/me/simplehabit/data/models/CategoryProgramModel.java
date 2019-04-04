@@ -7,6 +7,7 @@ import java.util.List;
 public interface CategoryProgramModel {
 
     List<CategoriesProgramVO> getCategoriesAndProgram(CategoryProgramModelDelegate delegate,boolean isForce);
+    CategoriesProgramVO getCategoriesAndProgramById(String categoryId);
 
     interface CategoryProgramModelDelegate{
 

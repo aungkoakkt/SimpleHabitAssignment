@@ -19,12 +19,14 @@ public class ProgramViewHolder extends BaseViewHolder<ProgramVO> {
     @BindView(R.id.cv_item_program) MaterialCardView cvProgram;
 
     private ProgramDelegate mProgramDelegate;
+    private String mCategoryId;
 
-    public ProgramViewHolder(@NonNull View itemView, ProgramDelegate delegate) {
+    public ProgramViewHolder(@NonNull View itemView, ProgramDelegate delegate,String categoryId) {
         super(itemView);
         ButterKnife.bind(this,itemView);
 
         mProgramDelegate =delegate;
+        mCategoryId=categoryId;
     }
 
     @Override
@@ -35,7 +37,7 @@ public class ProgramViewHolder extends BaseViewHolder<ProgramVO> {
         cvProgram.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mProgramDelegate.onTapProgramItem(data);
+                mProgramDelegate.onTapProgramItem(data,mCategoryId,getAdapterPosition());
             }
         });
     }

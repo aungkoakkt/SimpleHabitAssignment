@@ -33,14 +33,16 @@ public class DetailActivity extends BaseActivity {
     @BindView(R.id.tv_activity_detail_description) TextView tvDescription;
     @BindView(R.id.rv_activity_detail_session) RecyclerView rvSession;
 
-    public static final String PROGRAM="program";
+    public static final String PROGRAM = "program";
+    public static final String POSITION = "position";
+    public static final String CATEGORY_ID="category_id";
 
     private CurrentProgramModel currentProgramModel;
     private CategoryProgramModel categoryProgramModel;
     private SessionAdapter sessionAdapter;
 
-    public static Intent newIntent(Context context){
-        return new Intent(context,DetailActivity.class);
+    public static Intent newIntent(Context context) {
+        return new Intent(context, DetailActivity.class);
     }
 
     @Override
@@ -50,49 +52,39 @@ public class DetailActivity extends BaseActivity {
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
 
-        rvSession.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
-        sessionAdapter=new SessionAdapter();
+        rvSession.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        sessionAdapter = new SessionAdapter();
         rvSession.setAdapter(sessionAdapter);
 
-        Intent intent=getIntent();
-        String program=intent.getStringExtra(PROGRAM);
+        Intent intent = getIntent();
+        String program = intent.getStringExtra(PROGRAM);
 
-        if (program.equals("current")){
+        if (program.equals("current")) {
 
-            currentProgramModel= CurrentProgramModelImpl.getInstance();
+            currentProgramModel = CurrentProgramModelImpl.getInstance();
 
-            currentProgramModel.getCurrentProgram(new CurrentProgramModel.CurrentProgramDelegate() {
-                @Override
-                public void onCurrentProgramFetchFromNetwork(CurrentProgramVO currentProgramVO) {
-                    tvDescription.setText(currentProgramVO.getDescription());
-                    collapsingToolbarLayout.setTitle(currentProgramVO.getTitle());
+            CurrentProgramVO currentProgram = currentProgramModel.getCurrentProgram();
 
-                    sessionAdapter.setNewData(currentProgramVO.getSessions());
-                }
+            if (currentProgram != null) {
+                tvDescription.setText(currentProgram.getDescription());
+                collapsingToolbarLayout.setTitle(currentProgram.getTitle());
+                sessionAdapter.setNewData(currentProgram.getSessions());
+            }
 
-                @Override
-                public void onErrorOnProgramFetch(String message) {
-                    Toast.makeText(DetailActivity.this, message, Toast.LENGTH_SHORT).show();
-                }
-            },false);
+        } else {
 
-        }else {
-            categoryProgramModel= CategoryProgramModelImpl.getInstance();
+            int position = intent.getIntExtra(POSITION, 0);
+            String categoryId=intent.getStringExtra(CATEGORY_ID);
 
-            categoryProgramModel.getCategoriesAndProgram(new CategoryProgramModel.CategoryProgramModelDelegate() {
-                @Override
-                public void onCurrentProgramFetchFromNetwork(List<CategoriesProgramVO> categoryList) {
-                    tvDescription.setText(categoryList.get(0).getPrograms().get(0).getDescription());
-                    collapsingToolbarLayout.setTitle(categoryList.get(0).getPrograms().get(0).getTitle());
+            categoryProgramModel = CategoryProgramModelImpl.getInstance();
 
-                    sessionAdapter.setNewData(categoryList.get(0).getPrograms().get(0).getSessions());
-                }
+            CategoriesProgramVO categoryList = categoryProgramModel.getCategoriesAndProgramById(categoryId);
 
-                @Override
-                public void onErrorOnProgramFetch(String message) {
-                    Toast.makeText(DetailActivity.this, message, Toast.LENGTH_SHORT).show();
-                }
-            },false);
+            tvDescription.setText(categoryList.getPrograms().get(position).getDescription());
+            collapsingToolbarLayout.setTitle(categoryList.getPrograms().get(position).getTitle());
+
+            sessionAdapter.setNewData(categoryList.getPrograms().get(position).getSessions());
+
         }
 
     }
