@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/screen_background"
     android:fitsSystemWindows="true">
 
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/appbar_layout"
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true">
 
-        <android.support.design.widget.CollapsingToolbarLayout
-            android:id="@+id/colp_activity_detail"
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/colpActivityDetail"
             android:layout_width="match_parent"
             android:layout_height="@dimen/news_details_appbar_height"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
@@ -23,47 +23,24 @@
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
-            <android.support.v7.widget.AppCompatImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
                 android:tint="@color/tint_color"
                 app:srcCompat="@drawable/img_current_program" />
 
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/tb_activity_detail"
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/tbActivityDetail"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize">
-                <!--    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-                        <android.support.v7.widget.AppCompatImageView
-                            android:id="@+id/iv_activity_detail_back"
-                            android:layout_width="35dp"
-                            android:layout_height="match_parent"
-                            app:srcCompat="@drawable/ic_arrow_back"/>
+            </androidx.appcompat.widget.Toolbar>
 
-                        <android.support.v7.widget.AppCompatImageView
-                            android:id="@+id/iv_activity_detail_share"
-                            android:layout_width="35dp"
-                            android:padding="4dp"
-                            android:layout_height="match_parent"
-                            android:layout_alignParentEnd="true"
-                            app:srcCompat="@drawable/ic_share"/>
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
 
-                        <android.support.v7.widget.AppCompatImageView
-                            android:layout_width="35dp"
-                            android:layout_height="match_parent"
-                            app:srcCompat="@drawable/ic_add"
-                            android:layout_toStartOf="@id/iv_activity_detail_share"/>
-                    </RelativeLayout>-->
-            </android.support.v7.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
 
-        </android.support.design.widget.CollapsingToolbarLayout>
-
-    </android.support.design.widget.AppBarLayout>
-
-    <android.support.v4.widget.NestedScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
@@ -93,7 +70,7 @@
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/text_regular_3x" />
 
-                <android.support.v7.widget.SwitchCompat
+                <androidx.appcompat.widget.SwitchCompat
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -108,7 +85,7 @@
                 android:padding="@dimen/margin_medium_1">
 
                 <TextView
-                    android:id="@+id/tv_activity_detail_description"
+                    android:id="@+id/tvActivityDetailDescription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
@@ -132,23 +109,23 @@
                     android:textColor="@android:color/white"
                     android:text="SESSIONS"/>
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/rv_activity_detail_session"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvActivityDetailSession"
                     android:layout_marginTop="@dimen/margin_medium_3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
 
             </LinearLayout>
         </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab_share"
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabShare"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="@dimen/margin_medium_2"
-        android:src="@drawable/ic_play_arrow"
-        app:layout_anchor="@id/appbar_layout"
+        android:layout_marginEnd="@dimen/margin_medium_2"
+        app:srcCompat="@drawable/ic_play_arrow"
+        app:layout_anchor="@id/appbarLayout"
         app:layout_anchorGravity="right|bottom" />
 
-</android.support.design.widget.CoordinatorLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

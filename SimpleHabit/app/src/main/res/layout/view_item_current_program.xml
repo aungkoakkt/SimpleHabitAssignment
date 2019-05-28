@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <android.support.design.card.MaterialCardView
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardCornerRadius="@dimen/margin_small"
@@ -15,7 +15,7 @@
         >
 
         <RelativeLayout
-            android:id="@+id/rl_item_current_program"
+            android:id="@+id/rlItemCurrentProgram"
             android:layout_width="match_parent"
             android:layout_height="220dp"
             android:foreground="@drawable/ripple_white1"
@@ -23,26 +23,26 @@
             android:focusable="true"
             >
 
-            <android.support.v7.widget.AppCompatImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
                 app:srcCompat="@drawable/img_current_program"/>
 
             <TextView
-                android:id="@+id/tv_item_current_program_title"
+                android:id="@+id/tvItemCurrentProgramTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/white"
                 android:layout_centerInParent="true"
                 android:gravity="center"
                 android:layout_marginBottom="@dimen/margin_large"
-                android:layout_above="@id/btn_item_current_program_play"
+                android:layout_above="@id/btnItemCurrentProgramPlay"
                 android:textSize="@dimen/text_heading_1x"
                 android:textStyle="bold"/>
 
-            <android.support.v7.widget.AppCompatButton
-                android:id="@+id/btn_item_current_program_play"
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnItemCurrentProgramPlay"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_centerInParent="true"
@@ -54,7 +54,7 @@
                 android:drawableStart="@drawable/ic_play_arrow"
                 android:background="@drawable/button_with_corner1"/>
 
-            <android.support.v7.widget.AppCompatImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 app:srcCompat="@drawable/ic_add"
@@ -62,7 +62,7 @@
                 android:layout_alignParentEnd="true"/>
 
             <TextView
-                android:id="@+id/tv_item_current_program_duration"
+                android:id="@+id/tvItemCurrentProgramDuration"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/white"
@@ -71,8 +71,8 @@
                 android:layout_alignParentBottom="true"/>
         </RelativeLayout>
 
-    </android.support.design.card.MaterialCardView>
+    </com.google.android.material.card.MaterialCardView>
 
 
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
