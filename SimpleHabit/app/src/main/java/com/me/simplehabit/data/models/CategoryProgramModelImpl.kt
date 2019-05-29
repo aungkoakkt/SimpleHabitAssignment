@@ -1,12 +1,10 @@
 package com.me.simplehabit.data.models
 
-import android.content.Context
-
 import com.me.simplehabit.data.vos.CategoriesProgramVO
 import com.me.simplehabit.delegates.CategoryProgramDelegate
 import com.me.simplehabit.utils.CommonInstances
 
-class CategoryProgramModelImpl private constructor(context: Context) : BaseModel(context), CategoryProgramModel {
+object CategoryProgramModelImpl : BaseModel(), CategoryProgramModel {
 
     override fun getCategoriesAndProgram(delegate: CategoryProgramModel.CategoryProgramModelDelegate, isForce: Boolean): List<CategoriesProgramVO> {
 
@@ -36,20 +34,4 @@ class CategoryProgramModelImpl private constructor(context: Context) : BaseModel
         } else mDatabase.categoryProgramDao.retrieveCategoryById(categoryId)
     }
 
-    companion object {
-
-        private var objInstance: CategoryProgramModelImpl? = null
-
-        fun initCategoryProgramModel(context: Context) {
-            objInstance = CategoryProgramModelImpl(context)
-        }
-
-        val instance: CategoryProgramModelImpl
-            get() {
-                if (objInstance == null) {
-                    throw RuntimeException("CategoryProgramModel should have been initialized before using it")
-                }
-                return objInstance as CategoryProgramModelImpl
-            }
-    }
 }

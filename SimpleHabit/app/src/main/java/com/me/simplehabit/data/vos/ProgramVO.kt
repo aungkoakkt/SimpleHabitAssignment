@@ -2,23 +2,23 @@ package com.me.simplehabit.data.vos
 
 import com.google.gson.annotations.SerializedName
 
-class ProgramVO {
+data class ProgramVO(
 
-    @SerializedName("program-id")
-    var programId: String? = null
+        @SerializedName("program-id")
+        val programId: String,
 
-    @SerializedName("title")
-    var title: String? = null
+        @SerializedName("title")
+        val title: String,
 
-    @SerializedName("image")
-    var image: String? = null
+        @SerializedName("image")
+        val image: String,
 
-    @SerializedName("average-lengths")
-    var averageLengths: List<Int>? = null
+        @SerializedName("average-lengths")
+        val averageLengths: List<Int>,
 
-    @SerializedName("description")
-    var description: String? = null
+        @SerializedName("description")
+        val description: String,
 
-    @SerializedName("sessions")
-    var sessions: List<SessionVO>? = null
-}
+        @SerializedName("sessions")
+        val sessions: List<SessionVO>
+)

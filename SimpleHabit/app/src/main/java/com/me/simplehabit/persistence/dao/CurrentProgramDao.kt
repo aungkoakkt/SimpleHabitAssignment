@@ -15,4 +15,7 @@ interface CurrentProgramDao {
 
     @Query("select * from CurrentProgram")
     fun retrieveCurrentProgram(): CurrentProgramVO
+
+    @Query("select count(*) from CurrentProgram")
+    fun retrieveCurrentProgramCount(): Int
 }

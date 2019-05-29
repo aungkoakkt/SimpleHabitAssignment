@@ -10,8 +10,8 @@ class HabitApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        CurrentProgramModelImpl.initCurrentProgramModel(applicationContext)
-        TopicModelImpl.initTopicModel(applicationContext)
-        CategoryProgramModelImpl.initCategoryProgramModel(applicationContext)
+        CurrentProgramModelImpl.initDatabase(applicationContext)
+        TopicModelImpl.initDatabase(applicationContext)
+        CategoryProgramModelImpl.initDatabase(applicationContext)
     }
 }

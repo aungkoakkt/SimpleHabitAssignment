@@ -13,15 +13,23 @@ interface SimpleHabitAPI {
 
     @FormUrlEncoded
     @POST("getCurrentProgram.php")
-    fun loadCurrentProgram(@Field("access_token") accessToken: String, @Field("page") page: Int): Call<GetCurrentProgramResponse>
+    fun loadCurrentProgram(
+            @Field("access_token") accessToken: String,
+            @Field("page") page: Int
+    ): Call<GetCurrentProgramResponse>
 
     @FormUrlEncoded
     @POST("getTopics.php")
-    fun loadTopics(@Field("access_token") accessToken: String, @Field("page") page: Int): Call<GetTopicResponse>
+    fun loadTopics(
+            @Field("access_token") accessToken: String,
+            @Field("page") page: Int
+    ): Call<GetTopicResponse>
 
     @FormUrlEncoded
     @POST("getCategoriesPrograms.php")
-    fun loadCategoriesAdnPrograms(@Field("access_token") accessToken: String, @Field("page") page: Int): Call<GetCategoriesAndProgramsResponse>
-
+    fun loadCategoriesAdnPrograms(
+            @Field("access_token") accessToken: String,
+            @Field("page") page: Int
+    ): Call<GetCategoriesAndProgramsResponse>
 
 }

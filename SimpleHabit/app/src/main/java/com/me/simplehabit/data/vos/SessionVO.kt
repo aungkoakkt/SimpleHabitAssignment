@@ -2,17 +2,17 @@ package com.me.simplehabit.data.vos
 
 import com.google.gson.annotations.SerializedName
 
-class SessionVO {
+data class SessionVO(
 
-    @SerializedName("session-id")
-    var sessionId: String? = null
+        @SerializedName("session-id")
+        val sessionId: String,
 
-    @SerializedName("title")
-    var title: String? = null
+        @SerializedName("title")
+        val title: String,
 
-    @SerializedName("length-in-seconds")
-    var lengthInSeconds: Int = 0
+        @SerializedName("length-in-seconds")
+        val lengthInSeconds: Int,
 
-    @SerializedName("file-path")
-    var filePath: String? = null
-}
+        @SerializedName("file-path")
+        val filePath: String
+)

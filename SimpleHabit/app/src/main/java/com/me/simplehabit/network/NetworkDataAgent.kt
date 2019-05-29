@@ -17,7 +17,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class NetworkDataAgent private constructor() : SimpleHabitDataAgent {
+object NetworkDataAgent : SimpleHabitDataAgent {
 
     private val theApi: SimpleHabitAPI
 
@@ -31,7 +31,7 @@ class NetworkDataAgent private constructor() : SimpleHabitDataAgent {
 
         val retrofit = Retrofit.Builder()
                 .baseUrl("http://padcmyanmar.com/padc-5/simple-habits/")
-                .addConverterFactory(GsonConverterFactory.create(CommonInstances.gsonInstance))
+                .addConverterFactory(GsonConverterFactory.create(CommonInstances.gSonInstance))
                 .client(okHttpClient)
                 .build()
 
@@ -109,18 +109,5 @@ class NetworkDataAgent private constructor() : SimpleHabitDataAgent {
 
             }
         })
-    }
-
-    companion object {
-
-        private var INSTANCE: NetworkDataAgent? = null
-        fun getInstance(): NetworkDataAgent {
-            if (INSTANCE == null) {
-                INSTANCE = NetworkDataAgent()
-            }
-
-            val i = INSTANCE
-            return i!!
-        }
     }
 }

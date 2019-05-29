@@ -7,15 +7,14 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity() {
 
-    private var mainViewPagerAdapter: MainViewPagerAdapter? = null
+    private val mainViewPagerAdapter: MainViewPagerAdapter = MainViewPagerAdapter(supportFragmentManager)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        mainViewPagerAdapter = MainViewPagerAdapter(supportFragmentManager)
-        vpActivityMain!!.adapter = mainViewPagerAdapter
-        vpActivityMain!!.currentItem = 1
-        tlActivityMain!!.setupWithViewPager(vpActivityMain)
+        vpActivityMain.adapter = mainViewPagerAdapter
+        vpActivityMain.currentItem = 1
+        tlActivityMain.setupWithViewPager(vpActivityMain)
     }
 }

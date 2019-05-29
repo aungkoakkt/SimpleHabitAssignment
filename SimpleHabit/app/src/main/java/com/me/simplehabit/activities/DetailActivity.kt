@@ -16,9 +16,9 @@ import kotlinx.android.synthetic.main.activity_detail.*
 
 class DetailActivity : BaseActivity() {
 
-    private var currentProgramModel: CurrentProgramModel? = null
-    private var categoryProgramModel: CategoryProgramModel? = null
-    private var sessionAdapter: SessionAdapter? = null
+    private lateinit var currentProgramModel: CurrentProgramModel
+    private lateinit var categoryProgramModel: CategoryProgramModel
+    private val sessionAdapter: SessionAdapter = SessionAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,7 +26,7 @@ class DetailActivity : BaseActivity() {
         setSupportActionBar(tbActivityDetail)
 
         rvActivityDetailSession.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
-        sessionAdapter = SessionAdapter()
+
         rvActivityDetailSession.adapter = sessionAdapter
 
         val intent = intent
@@ -34,29 +34,27 @@ class DetailActivity : BaseActivity() {
 
         if (program == "current") {
 
-            currentProgramModel = CurrentProgramModelImpl.instance
+            currentProgramModel = CurrentProgramModelImpl
 
-            val currentProgram = currentProgramModel!!.getCurrentProgram()
+            val currentProgram = currentProgramModel.getCurrentProgram()
 
-            if (currentProgram != null) {
-                tvActivityDetailDescription!!.text = currentProgram.description
-                colpActivityDetail!!.title = currentProgram.title
-                sessionAdapter!!.setNewData(currentProgram.sessions as MutableList<SessionVO>)
-            }
+            tvActivityDetailDescription.text = currentProgram.description
+            colpActivityDetail.title = currentProgram.title
+            sessionAdapter.setNewData(currentProgram.sessions as MutableList<SessionVO>)
 
         } else {
 
             val position = intent.getIntExtra(POSITION, 0)
             val categoryId = intent.getStringExtra(CATEGORY_ID)
 
-            categoryProgramModel = CategoryProgramModelImpl.instance
+            categoryProgramModel = CategoryProgramModelImpl
 
-            val categoryList = categoryProgramModel!!.getCategoriesAndProgramById(categoryId)
+            val categoryList = categoryProgramModel.getCategoriesAndProgramById(categoryId)
 
-            tvActivityDetailDescription.text = categoryList.programs!![position].description
-            colpActivityDetail.title = categoryList.programs!![position].title
+            tvActivityDetailDescription.text = categoryList.programs[position].description
+            colpActivityDetail.title = categoryList.programs[position].title
 
-            sessionAdapter!!.setNewData(categoryList.programs!![position].sessions as MutableList<SessionVO>)
+            sessionAdapter.setNewData(categoryList.programs[position].sessions as MutableList<SessionVO>)
 
         }
 

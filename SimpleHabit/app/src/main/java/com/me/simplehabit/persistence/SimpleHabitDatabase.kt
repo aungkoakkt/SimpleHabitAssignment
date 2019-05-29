@@ -16,7 +16,10 @@ import com.me.simplehabit.persistence.typeconverters.IntegerListConverter
 import com.me.simplehabit.persistence.typeconverters.ProgramListConverter
 import com.me.simplehabit.persistence.typeconverters.SessionListConverter
 
-@Database(entities = [CurrentProgramVO::class, TopicVO::class, CategoriesProgramVO::class], version = 3)
+@Database(entities = [
+    CurrentProgramVO::class,
+    TopicVO::class,
+    CategoriesProgramVO::class], version = 3)
 @TypeConverters(SessionListConverter::class, IntegerListConverter::class, ProgramListConverter::class)
 abstract class SimpleHabitDatabase : RoomDatabase() {
 
@@ -26,8 +29,8 @@ abstract class SimpleHabitDatabase : RoomDatabase() {
 
     val isCurrentProgramEmpty: Boolean
         get() {
-            val currentProgram = currentProgramDao.retrieveCurrentProgram()
-            return currentProgram == null
+            val count = currentProgramDao.retrieveCurrentProgramCount()
+            return count < 1
         }
 
     val isTopicEmpty: Boolean
@@ -45,7 +48,7 @@ abstract class SimpleHabitDatabase : RoomDatabase() {
     companion object {
 
         private var objInstance: SimpleHabitDatabase? = null
-        private val DB_NAME = "simple_habit.db"
+        private const val DB_NAME = "simple_habit.db"
 
         fun getDatabase(context: Context): SimpleHabitDatabase {
 

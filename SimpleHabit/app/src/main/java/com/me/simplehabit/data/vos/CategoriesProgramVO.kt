@@ -8,22 +8,22 @@ import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
 @Entity(tableName = "category_program", indices = [Index(value = ["category_id"], unique = true)])
-class CategoriesProgramVO {
+data class CategoriesProgramVO(
 
-    @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "category_program_id")
-    var categoryProgramId: Int = 0
+        @PrimaryKey(autoGenerate = true)
+        @ColumnInfo(name = "category_program_id")
+        val categoryProgramId: Int,
 
-    @ColumnInfo(name = "category_id")
-    @SerializedName("category-id")
-    var categoryId: String? = null
+        @ColumnInfo(name = "category_id")
+        @SerializedName("category-id")
+        val categoryId: String,
 
-    @ColumnInfo(name = "title")
-    @SerializedName("title")
-    var title: String? = null
+        @ColumnInfo(name = "title")
+        @SerializedName("title")
+        val title: String,
 
-    @ColumnInfo(name = "program_list")
-    @SerializedName("programs")
-    var programs: List<ProgramVO>? = null
+        @ColumnInfo(name = "program_list")
+        @SerializedName("programs")
+        val programs: List<ProgramVO>
 
-}
+)

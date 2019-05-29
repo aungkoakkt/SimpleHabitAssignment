@@ -16,10 +16,10 @@ class IntegerListConverter {
 
     @TypeConverter
     fun fromJsonToList(data: String): List<Int>? {
-        val typelist = object : TypeToken<List<Int>>() {
+        val listType = object : TypeToken<List<Int>>() {
 
         }.type
 
-        return Gson().fromJson<List<Int>>(data, typelist)
+        return Gson().fromJson<List<Int>>(data, listType)
     }
 }

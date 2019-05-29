@@ -1,12 +1,10 @@
 package com.me.simplehabit.data.models
 
-import android.content.Context
-
 import com.me.simplehabit.data.vos.CurrentProgramVO
 import com.me.simplehabit.delegates.CurrentProgramResponseDelegate
 import com.me.simplehabit.utils.CommonInstances
 
-class CurrentProgramModelImpl private constructor(context: Context) : BaseModel(context), CurrentProgramModel {
+object CurrentProgramModelImpl : BaseModel(), CurrentProgramModel {
 
     override fun getCurrentProgram(delegate: CurrentProgramModel.CurrentProgramDelegate, isForce: Boolean): CurrentProgramVO {
 
@@ -32,22 +30,5 @@ class CurrentProgramModelImpl private constructor(context: Context) : BaseModel(
         return if (!mDatabase.isCurrentProgramEmpty) {
             mDatabase.currentProgramDao.retrieveCurrentProgram()
         } else mDatabase.currentProgramDao.retrieveCurrentProgram()
-    }
-
-    companion object {
-
-        private var objInstance: CurrentProgramModelImpl? = null
-
-        fun initCurrentProgramModel(context: Context) {
-            objInstance = CurrentProgramModelImpl(context)
-        }
-
-        val instance: CurrentProgramModelImpl
-            get() {
-                if (objInstance == null) {
-                    throw RuntimeException("CurrentProgramModel should have been initialized before using it")
-                }
-                return objInstance as CurrentProgramModelImpl
-            }
     }
 }

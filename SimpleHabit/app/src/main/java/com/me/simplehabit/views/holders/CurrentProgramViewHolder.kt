@@ -8,7 +8,7 @@ import kotlinx.android.synthetic.main.view_item_current_program.view.*
 class CurrentProgramViewHolder(itemView: View, private val currentProgramDelegate: CurrentProgramDelegate) : BaseViewHolder<CurrentProgramVO>(itemView) {
 
     override fun bindData(data: CurrentProgramVO) {
-        itemView.tvItemCurrentProgramDuration.text = data.averageLengths!![adapterPosition].toString() + " mins"
+        itemView.tvItemCurrentProgramDuration.text = data.averageLengths[adapterPosition].toString() + " mins"
         itemView.tvItemCurrentProgramTitle.text = data.title
         itemView.btnItemCurrentProgramPlay.text = data.currentPeriod
 

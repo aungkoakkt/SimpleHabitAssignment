@@ -10,7 +10,7 @@ class ProgramViewHolder(itemView: View, private val mProgramDelegate: ProgramDel
 
     override fun bindData(data: ProgramVO) {
         itemView.tvItemProgramTitle.text = data.title
-        itemView.tvItemProgramDuration.text = data.averageLengths!![0].toString() + " mins"
+        itemView.tvItemProgramDuration.text = data.averageLengths[0].toString() + " mins"
 
         itemView.cvItemProgram.setOnClickListener { mProgramDelegate.onTapProgramItem(data, mCategoryId, adapterPosition) }
     }

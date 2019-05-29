@@ -7,27 +7,27 @@ import androidx.room.PrimaryKey
 
 import com.google.gson.annotations.SerializedName
 
-@Entity(tableName = "topic", indices = [Index( "topic_name", unique = true)])
-class TopicVO {
+@Entity(tableName = "topic", indices = [Index("topic_name", unique = true)])
+data class TopicVO(
 
-    @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "topic_id")
-    var topicId: Int = 0
+        @PrimaryKey(autoGenerate = true)
+        @ColumnInfo(name = "topic_id")
+        val topicId: Int,
 
-    @ColumnInfo(name = "topic_name")
-    @SerializedName("topic-name")
-    var topicName: String? = null
+        @ColumnInfo(name = "topic_name")
+        @SerializedName("topic-name")
+        val topicName: String,
 
-    @ColumnInfo(name = "topic_desc")
-    @SerializedName("topic-desc")
-    var topicDesc: String? = null
+        @ColumnInfo(name = "topic_desc")
+        @SerializedName("topic-desc")
+        val topicDesc: String,
 
-    @ColumnInfo(name = "icon")
-    @SerializedName("icon")
-    var icon: String? = null
+        @ColumnInfo(name = "icon")
+        @SerializedName("icon")
+        val icon: String,
 
-    @ColumnInfo(name = "background")
-    @SerializedName("background")
-    var background: String? = null
+        @ColumnInfo(name = "background")
+        @SerializedName("background")
+        val background: String
 
-}
+)

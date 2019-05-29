@@ -3,12 +3,12 @@ package com.me.simplehabit.network.responses
 import com.google.gson.annotations.SerializedName
 import com.me.simplehabit.data.vos.CategoriesProgramVO
 
-class GetCategoriesAndProgramsResponse : BaseResponse() {
+data class GetCategoriesAndProgramsResponse(
 
-    @SerializedName("page")
-    var page: String? = null
+        @SerializedName("page")
+        val page: String,
 
-    @SerializedName("categoriesPrograms")
-    var categoriesPrograms: List<CategoriesProgramVO>? = null
+        @SerializedName("categoriesPrograms")
+        val categoriesPrograms: List<CategoriesProgramVO>
 
-}
+) : BaseResponse()

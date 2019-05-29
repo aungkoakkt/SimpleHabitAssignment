@@ -11,5 +11,5 @@ object CommonInstances {
     const val TOKEN = "b002c7e1a528b7cb460933fc2875e916"
     const val PAGE = 1
 
-    val gsonInstance: Gson = Gson()
+    val gSonInstance: Gson = Gson()
 }

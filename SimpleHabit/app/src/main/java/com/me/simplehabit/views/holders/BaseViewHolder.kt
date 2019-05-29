@@ -5,7 +5,5 @@ import android.view.View
 
 abstract class BaseViewHolder<V>(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-    protected var mData: V? = null
-
     abstract fun bindData(data: V)
 }

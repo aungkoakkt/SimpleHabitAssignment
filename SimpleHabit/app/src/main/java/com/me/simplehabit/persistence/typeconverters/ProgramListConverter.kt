@@ -17,9 +17,9 @@ class ProgramListConverter {
 
     @TypeConverter
     fun fromJsonToList(data: String): List<ProgramVO>? {
-        val typelist = object : TypeToken<List<ProgramVO>>() {
+        val listType = object : TypeToken<List<ProgramVO>>() {
 
         }.type
-        return Gson().fromJson<List<ProgramVO>>(data, typelist)
+        return Gson().fromJson<List<ProgramVO>>(data, listType)
     }
 }

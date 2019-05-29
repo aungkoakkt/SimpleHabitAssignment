@@ -1,6 +1,5 @@
 package com.me.simplehabit.fragments
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -37,13 +36,6 @@ import java.util.ArrayList
  */
 class SeriesFragment : Fragment(), CurrentProgramDelegate, TopicDelegate, ProgramDelegate {
 
-/*    @BindView(R.id.rvFragmentSeriesCurrentProgram)
-    internal var rvCurrentProgram: RecyclerView? = null
-    @BindView(R.id.rvFragmentSeriesTopic)
-    internal var rvTopic: RecyclerView? = null
-    @BindView(R.id.rvFragmentSeriesCategories)
-    internal var rvCategories: RecyclerView? = null*/
-
     private var currentProgramAdapter: CurrentProgramAdapter? = null
     private var topicsAdapter: TopicsAdapter? = null
     private var categoryProgramAdapter: CategoryProgramAdapter? = null
@@ -73,9 +65,9 @@ class SeriesFragment : Fragment(), CurrentProgramDelegate, TopicDelegate, Progra
         categoryProgramAdapter = CategoryProgramAdapter(this)
         rvFragmentSeriesCategories.adapter = categoryProgramAdapter
 
-        currentProgramModel = CurrentProgramModelImpl.instance
-        topicModel = TopicModelImpl.instance
-        categoryProgramModel = CategoryProgramModelImpl.instance
+        currentProgramModel = CurrentProgramModelImpl
+        topicModel = TopicModelImpl
+        categoryProgramModel = CategoryProgramModelImpl
 
         getCurrentProgram(false)
         getTopic(false)
