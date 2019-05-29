@@ -8,7 +8,7 @@ import android.view.ViewGroup
 
 import com.me.simplehabit.R
 
-class OnTheGoFragment : Fragment() {
+class OnTheGoFragment : BaseFragment() {
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,

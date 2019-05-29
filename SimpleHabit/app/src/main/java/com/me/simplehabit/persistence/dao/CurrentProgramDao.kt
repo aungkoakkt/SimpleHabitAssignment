@@ -1,5 +1,6 @@
 package com.me.simplehabit.persistence.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -14,7 +15,7 @@ interface CurrentProgramDao {
     fun saveCurrentProgram(currentProgram: CurrentProgramVO)
 
     @Query("select * from CurrentProgram")
-    fun retrieveCurrentProgram(): CurrentProgramVO
+    fun retrieveCurrentProgram(): LiveData<CurrentProgramVO>
 
     @Query("select count(*) from CurrentProgram")
     fun retrieveCurrentProgramCount(): Int

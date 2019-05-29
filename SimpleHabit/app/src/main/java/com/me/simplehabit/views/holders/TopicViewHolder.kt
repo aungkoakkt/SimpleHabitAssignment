@@ -15,5 +15,4 @@ class TopicViewHolder(itemView: View, private val mDelegate: TopicDelegate) : Ba
         itemView.cvItemTopic.setOnClickListener { mDelegate.onTapTopicItem(data) }
     }
 
-
 }

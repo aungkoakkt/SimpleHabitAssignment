@@ -1,5 +1,6 @@
 package com.me.simplehabit.persistence.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -14,8 +15,11 @@ interface CategoryProgramDao {
     fun saveCategoriesAndPrograms(programList: List<CategoriesProgramVO>)
 
     @Query("select * from category_program")
-    fun retrieveCategoriesAndPrograms(): List<CategoriesProgramVO>
+    fun retrieveCategoriesAndPrograms(): LiveData<List<CategoriesProgramVO>>
+
+    @Query("select count(*) from category_program")
+    fun retrieveCategoriesAndProgramsCount(): Int
 
     @Query("select * from category_program where category_id=:categoryId")
-    fun retrieveCategoryById(categoryId: String): CategoriesProgramVO
+    fun retrieveCategoryById(categoryId: String): LiveData<CategoriesProgramVO>
 }

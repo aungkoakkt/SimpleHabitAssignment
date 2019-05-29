@@ -1,5 +1,6 @@
 package com.me.simplehabit.persistence.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -14,5 +15,8 @@ interface TopicDao {
     fun saveTopics(topicList: List<TopicVO>)
 
     @Query("select * from topic")
-    fun retrieveTopics(): List<TopicVO>
+    fun retrieveTopics(): LiveData<List<TopicVO>>
+
+    @Query("select count(*) from topic")
+    fun retrieveTopicsCount(): Int
 }

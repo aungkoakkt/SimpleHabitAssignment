@@ -1,48 +1,40 @@
 package com.me.simplehabit.fragments
 
+import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-
+import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.me.simplehabit.R
 import com.me.simplehabit.activities.DetailActivity
 import com.me.simplehabit.adapters.CategoryProgramAdapter
 import com.me.simplehabit.adapters.CurrentProgramAdapter
 import com.me.simplehabit.adapters.TopicsAdapter
-import com.me.simplehabit.data.models.CategoryProgramModel
-import com.me.simplehabit.data.models.CategoryProgramModelImpl
-import com.me.simplehabit.data.models.CurrentProgramModel
-import com.me.simplehabit.data.models.CurrentProgramModelImpl
-import com.me.simplehabit.data.models.TopicModel
-import com.me.simplehabit.data.models.TopicModelImpl
 import com.me.simplehabit.data.vos.CategoriesProgramVO
 import com.me.simplehabit.data.vos.CurrentProgramVO
-import com.me.simplehabit.data.vos.ProgramVO
 import com.me.simplehabit.data.vos.TopicVO
-import com.me.simplehabit.delegates.CurrentProgramDelegate
-import com.me.simplehabit.delegates.ProgramDelegate
-import com.me.simplehabit.delegates.TopicDelegate
+import com.me.simplehabit.mvp.presenters.impl.MainPresenter
+import com.me.simplehabit.mvp.views.MainView
 import kotlinx.android.synthetic.main.fragment_series.*
+import java.util.*
 
-import java.util.ArrayList
+class SeriesFragment : BaseFragment(), MainView {
 
-/**
- * A simple [Fragment] subclass.
- */
-class SeriesFragment : Fragment(), CurrentProgramDelegate, TopicDelegate, ProgramDelegate {
+    private lateinit var mMainPresenter: MainPresenter
 
-    private var currentProgramAdapter: CurrentProgramAdapter? = null
-    private var topicsAdapter: TopicsAdapter? = null
-    private var categoryProgramAdapter: CategoryProgramAdapter? = null
+    private lateinit var currentProgramAdapter: CurrentProgramAdapter
+    private lateinit var topicsAdapter: TopicsAdapter
+    private lateinit var categoryProgramAdapter: CategoryProgramAdapter
 
-    private var currentProgramModel: CurrentProgramModel? = null
-    private var topicModel: TopicModel? = null
-    private var categoryProgramModel: CategoryProgramModel? = null
+    companion object {
+
+        fun newInstance() = SeriesFragment()
+    }
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_series, container, false)
@@ -52,109 +44,72 @@ class SeriesFragment : Fragment(), CurrentProgramDelegate, TopicDelegate, Progra
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        mMainPresenter = ViewModelProviders.of(this).get(MainPresenter::class.java)
+        mMainPresenter.initPresenter(this)
+        mMainPresenter.onUIReady(this)
+
         rvFragmentSeriesCurrentProgram.layoutManager = LinearLayoutManager(activity, RecyclerView.HORIZONTAL, false)
         rvFragmentSeriesTopic.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
         rvFragmentSeriesCategories.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
 
-        currentProgramAdapter = CurrentProgramAdapter(this)
+        currentProgramAdapter = CurrentProgramAdapter(mMainPresenter)
         rvFragmentSeriesCurrentProgram.adapter = currentProgramAdapter
 
-        topicsAdapter = TopicsAdapter(this)
+        topicsAdapter = TopicsAdapter(mMainPresenter)
         rvFragmentSeriesTopic.adapter = topicsAdapter
 
-        categoryProgramAdapter = CategoryProgramAdapter(this)
+        categoryProgramAdapter = CategoryProgramAdapter(mMainPresenter)
         rvFragmentSeriesCategories.adapter = categoryProgramAdapter
 
-        currentProgramModel = CurrentProgramModelImpl
-        topicModel = TopicModelImpl
-        categoryProgramModel = CategoryProgramModelImpl
-
-        getCurrentProgram(false)
-        getTopic(false)
-        getCategoriesAndPrograms(false)
-
+        srlSeriesFragment.setOnRefreshListener { mMainPresenter.onRefreshPage(this) }
     }
 
-    override fun onTapCurrentProgramItem(currentProgramVO: CurrentProgramVO) {
-        val intent = DetailActivity.newIntent(activity!!)
-        intent.putExtra("program", "current")
-        startActivity(intent)
+    override fun getMyContext(): Context {
+        return context!!
     }
 
+    override fun displayCurrentProgram(currentProgram: CurrentProgramVO) {
 
-    override fun onTapProgramItem(programVO: ProgramVO, categoryId: String, position: Int) {
-        val intent = DetailActivity.newIntent(activity!!)
-        intent.putExtra(DetailActivity.PROGRAM, "default")
+        if (srlSeriesFragment.isRefreshing){
+            srlSeriesFragment.isRefreshing=false
+        }
+
+        val programList = ArrayList<CurrentProgramVO>()
+        programList.add(currentProgram)
+        currentProgramAdapter.setNewData(programList)
+    }
+
+    override fun displayCategoriesAndPrograms(categoriesPrograms: List<CategoriesProgramVO>) {
+
+        if (srlSeriesFragment.isRefreshing){
+            srlSeriesFragment.isRefreshing=false
+        }
+
+        categoryProgramAdapter.setNewData(categoriesPrograms as MutableList<CategoriesProgramVO>)
+    }
+
+    override fun displayTopics(topics: List<TopicVO>) {
+
+        if (srlSeriesFragment.isRefreshing){
+            srlSeriesFragment.isRefreshing=false
+        }
+
+        topicsAdapter.setNewData(topics as MutableList<TopicVO>)
+    }
+
+    override fun displayFailToLoadDataMessage(message: String) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun displayNoDataMessage(message: String) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun navigateToDetail(type: String, position: Int, categoryId: String) {
+        val intent = DetailActivity.newIntent(context!!)
+        intent.putExtra(DetailActivity.PROGRAM, type)
         intent.putExtra(DetailActivity.POSITION, position)
         intent.putExtra(DetailActivity.CATEGORY_ID, categoryId)
         startActivity(intent)
     }
-
-    override fun onTapTopicItem(topic: TopicVO) {
-
-    }
-
-    private fun getCurrentProgram(isForce: Boolean) {
-        val currentProgram = currentProgramModel!!.getCurrentProgram(object : CurrentProgramModel.CurrentProgramDelegate {
-
-            override fun onCurrentProgramFetchFromNetwork(currentProgramVO: CurrentProgramVO) {
-                val programList = ArrayList<CurrentProgramVO>()
-                programList.add(currentProgramVO)
-
-                currentProgramAdapter!!.setNewData(programList)
-            }
-
-            override fun onErrorOnProgramFetch(message: String) {
-                Toast.makeText(activity, message, Toast.LENGTH_LONG).show()
-            }
-
-        }, isForce)
-
-        if (currentProgram != null) {
-            val programList = ArrayList<CurrentProgramVO>()
-            programList.add(currentProgram)
-            currentProgramAdapter!!.setNewData(programList)
-        }
-    }
-
-    private fun getTopic(isForce: Boolean) {
-        val topicList = topicModel!!.getTopics(isForce, object : TopicModel.TopicModelDelegate {
-
-            override fun onTopicFetchFromNetwork(topicList: List<TopicVO>) {
-                topicsAdapter!!.setNewData(topicList as MutableList<TopicVO>)
-            }
-
-            override fun onErrorTopicFetchFromNetwork(message: String) {
-                Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
-            }
-        })
-
-        if (topicList != null) {
-            topicsAdapter!!.setNewData(topicList as MutableList<TopicVO>)
-        }
-    }
-
-    private fun getCategoriesAndPrograms(isForce: Boolean) {
-
-        val programList = categoryProgramModel!!.getCategoriesAndProgram(object : CategoryProgramModel.CategoryProgramModelDelegate {
-            override fun onCurrentProgramFetchFromNetwork(categoriesProgramVOList: List<CategoriesProgramVO>) {
-                categoryProgramAdapter!!.setNewData(categoriesProgramVOList as MutableList<CategoriesProgramVO>)
-            }
-
-            override fun onErrorOnProgramFetch(message: String) {
-                Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
-            }
-
-        }, isForce)
-
-        if (programList != null) {
-            categoryProgramAdapter!!.setNewData(programList as MutableList<CategoriesProgramVO>)
-        }
-    }
-
-    companion object {
-
-        fun newInstance()=SeriesFragment()
-    }
-
 }

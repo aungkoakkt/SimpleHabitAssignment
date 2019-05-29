@@ -1,17 +1,12 @@
 package com.me.simplehabit.data.models
 
+import androidx.lifecycle.LiveData
 import com.me.simplehabit.data.vos.CurrentProgramVO
 
 interface CurrentProgramModel {
 
-    fun getCurrentProgram(): CurrentProgramVO
+    fun getCurrentProgram(): LiveData<CurrentProgramVO>
 
-    fun getCurrentProgram(delegate: CurrentProgramDelegate, isForce: Boolean): CurrentProgramVO
+    fun loadCurrentProgram(isForce: Boolean, networkFailure: (String) -> Unit): LiveData<CurrentProgramVO>
 
-    interface CurrentProgramDelegate {
-
-        fun onCurrentProgramFetchFromNetwork(currentProgramVO: CurrentProgramVO)
-
-        fun onErrorOnProgramFetch(message: String)
-    }
 }

@@ -35,14 +35,14 @@ abstract class SimpleHabitDatabase : RoomDatabase() {
 
     val isTopicEmpty: Boolean
         get() {
-            val topicList = topicDao.retrieveTopics()
-            return topicList.isEmpty()
+            val topicList = topicDao.retrieveTopicsCount()
+            return topicList < 1
         }
 
     val isCategoriesAndProgramsEmpty: Boolean
         get() {
-            val list = categoryProgramDao.retrieveCategoriesAndPrograms()
-            return list.isEmpty()
+            val list = categoryProgramDao.retrieveCategoriesAndProgramsCount()
+            return list < 1
         }
 
     companion object {

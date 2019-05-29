@@ -9,10 +9,7 @@ import android.view.ViewGroup
 
 import com.me.simplehabit.R
 
-/**
- * A simple [Fragment] subclass.
- */
-class TeachersFragment : Fragment() {
+class TeachersFragment : BaseFragment() {
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
